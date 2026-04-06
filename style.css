@@ -1,0 +1,622 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: white;
+  min-height: 100vh;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+.screen {
+  display: none;
+  min-height: 100vh;
+  padding: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.screen.active {
+  display: flex;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 40px 24px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.corner-info {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: right;
+  color: #dbeafe;
+}
+
+h1, h2 {
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+.description {
+  font-size: 18px;
+  line-height: 1.7;
+  margin-bottom: 30px;
+}
+
+/* 버튼 공통 */
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.main-button,
+.sub-button {
+  border: none;
+  border-radius: 12px;
+  padding: 14px 24px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.main-button {
+  background: #38bdf8;
+  color: #0f172a;
+  font-weight: bold;
+}
+
+.main-button:hover {
+  transform: translateY(-2px);
+}
+
+.sub-button {
+  background: #cbd5e1;
+  color: #0f172a;
+}
+
+.sub-button:hover {
+  transform: translateY(-2px);
+}
+
+/* 세로 버튼 */
+.vertical-group {
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 실루엣 자리 */
+.silhouette-placeholder {
+  width: 220px;
+  height: 220px;
+  margin: 0 auto 24px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.12);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #cbd5e1;
+  font-size: 16px;
+}
+
+/* 🎧 음성 영역 */
+.play-area {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.play-box {
+  width: 220px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.play-box h3 {
+  margin-top: 0;
+  margin-bottom: 14px;
+}
+
+.play-count {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #dbeafe;
+}
+
+/* 답 선택 */
+.answer-group {
+  margin-bottom: 20px;
+}
+
+.selected-answer {
+  outline: 3px solid #facc15;
+  transform: translateY(-2px);
+}
+
+/* 비활성 버튼 */
+.disabled-button {
+  background: #94a3b8 !important;
+  color: #e2e8f0 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+/* 모바일 대응 */
+@media (max-width: 600px) {
+  .card {
+    padding: 30px 18px;
+  }
+
+  .corner-info {
+    position: static;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  h1, h2 {
+    margin-top: 0;
+  }
+
+  .description {
+    font-size: 16px;
+  }
+
+  .play-box {
+    width: 100%;
+  }
+}
+.feedback-card {
+  overflow: hidden;
+  min-height: 260px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#feedback-text {
+  font-size: 42px;
+  margin: 0;
+  z-index: 2;
+}
+
+.feedback-correct {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+}
+
+.feedback-wrong {
+  background: linear-gradient(135deg, #111827, #1f2937);
+  color: white;
+}
+
+#confetti-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.confetti {
+  position: absolute;
+  width: 12px;
+  height: 18px;
+  opacity: 0.9;
+  animation: fall 2.2s linear forwards;
+}
+
+.confetti:nth-child(odd) {
+  border-radius: 2px;
+}
+
+.confetti:nth-child(even) {
+  border-radius: 50%;
+}
+
+.dark-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 1;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-40px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(320px) rotate(540deg);
+    opacity: 0;
+  }
+}
+#rain-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.raindrop {
+  position: absolute;
+  top: -30px;
+  width: 2px;
+  height: 18px;
+  background: rgba(200, 220, 255, 0.8);
+  animation: rain-fall 1s linear forwards;
+}
+
+@keyframes rain-fall {
+  0% {
+    transform: translateY(-20px) rotate(12deg);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(340px) rotate(12deg);
+    opacity: 0;
+  }
+}
+.silhouette-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+#screen-survey h2 {
+  font-size: 28px;
+}
+
+#screen-survey p {
+  font-size: 18px;
+}
+
+#screen-survey select {
+  font-size: 16px;
+}
+#survey-comment {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-size: 16px;
+  margin-top: 10px;
+  resize: none;
+}
+/* 첫 화면 로고 */
+.logo-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.club-logo {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.75);
+  padding: 10px;
+  box-shadow: 0 8px 20px rgba(255, 182, 193, 0.35);
+}
+
+/* 전체 배경: 봄 느낌 */
+body {
+  background: linear-gradient(180deg, #ffe4ef 0%, #ffd6e8 35%, #ffeef7 100%);
+  color: #5b3b46;
+}
+
+/* 기본 카드 */
+.card {
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 10px 30px rgba(214, 120, 154, 0.18);
+  backdrop-filter: blur(4px);
+}
+
+/* 첫 화면은 조금 더 또렷하게 */
+#screen-intro .card {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* 첫 화면 이후는 벚꽃 축제 느낌 */
+#screen-start .card,
+#screen-grade .card,
+#screen-teacher-intro .card,
+#screen-question .card,
+#screen-feedback .card,
+#screen-end .card,
+#screen-ethics .card,
+#screen-bonus .card,
+#screen-survey .card {
+  border: 2px solid rgba(255, 182, 193, 0.45);
+}
+
+/* 제목 색 */
+h1, h2 {
+  color: #c04c7f;
+}
+
+.description {
+  color: #6a4753;
+}
+
+/* 오른쪽 위 정보 */
+.corner-info {
+  color: #b04f77;
+  font-weight: 600;
+}
+
+/* 버튼 색상 */
+.main-button {
+  background: linear-gradient(135deg, #ff8fb1, #ffb3c7);
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 6px 14px rgba(255, 143, 177, 0.28);
+}
+
+.main-button:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+.sub-button {
+  background: #fff0f5;
+  color: #b04f77;
+  border: 1px solid rgba(255, 143, 177, 0.35);
+}
+
+.sub-button:hover {
+  transform: translateY(-2px);
+}
+
+/* 학년 버튼 세로 그룹 간격 */
+.vertical-group .main-button {
+  min-width: 180px;
+}
+
+/* 실루엣 영역도 화사하게 */
+.silhouette-placeholder {
+  background: linear-gradient(180deg, rgba(255, 232, 240, 0.95), rgba(255, 245, 248, 0.95));
+  border: 2px solid rgba(255, 182, 193, 0.35);
+}
+
+/* 음성 박스 */
+.play-box {
+  background: rgba(255, 245, 248, 0.95);
+  border: 1px solid rgba(255, 182, 193, 0.35);
+  box-shadow: 0 6px 16px rgba(214, 120, 154, 0.12);
+}
+
+.play-count {
+  color: #b04f77;
+  font-weight: 600;
+}
+
+/* 설문 스타일 조금 더 예쁘게 */
+#screen-survey h2 {
+  font-size: 30px;
+}
+
+#screen-survey p {
+  font-size: 18px;
+  color: #6a4753;
+}
+
+#screen-survey select,
+#survey-comment {
+  background: #fff9fb;
+  color: #5b3b46;
+  border: 1px solid rgba(255, 182, 193, 0.5);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+/* 선택된 답 강조 */
+.selected-answer {
+  outline: 3px solid #ff8fb1;
+  transform: translateY(-2px);
+}
+
+/* 비활성 버튼 */
+.disabled-button {
+  background: #d8c4cc !important;
+  color: white !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+/* 결과 화면 강조 */
+#screen-end .card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,244,248,0.95));
+}
+
+/* 윤리/보너스/설문도 봄 행사 느낌 */
+#screen-ethics .card,
+#screen-bonus .card,
+#screen-survey .card {
+  background: rgba(255, 250, 252, 0.92);
+}
+
+/* 간단한 벚꽃 느낌 배경 장식 */
+body::before,
+body::after {
+  content: "🌸";
+  position: fixed;
+  font-size: 32px;
+  opacity: 0.28;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::before {
+  top: 70px;
+  left: 24px;
+}
+
+body::after {
+  top: 120px;
+  right: 28px;
+}
+
+/* 카드가 장식보다 위에 보이게 */
+#app,
+.card {
+  position: relative;
+  z-index: 1;
+}
+/* 최종 인증서 */
+.certificate {
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 10px;
+  background: linear-gradient(135deg, #f7e7a8, #d4af37, #f7e7a8);
+  border-radius: 28px;
+  box-shadow: 0 12px 30px rgba(180, 120, 30, 0.28);
+}
+
+.certificate-inner {
+  position: relative;
+  background: linear-gradient(180deg, #fffdf7 0%, #fff7fb 100%);
+  border-radius: 22px;
+  padding: 44px 28px;
+  min-height: 520px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.certificate-title {
+  font-size: 34px;
+  color: #b07a00;
+  margin-bottom: 10px;
+}
+
+.certificate-subtitle {
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: #b88b2c;
+  margin-bottom: 28px;
+}
+
+.certificate-text {
+  font-size: 20px;
+  line-height: 1.9;
+  color: #6a4b32;
+  margin-bottom: 26px;
+}
+
+.certificate-score {
+  font-size: 24px;
+  font-weight: bold;
+  color: #c04c7f;
+  margin-bottom: 12px;
+}
+
+.certificate-bonus {
+  font-size: 18px;
+  font-weight: bold;
+  color: #c04c7f;
+  margin-bottom: 22px;
+}
+
+.certificate-footer {
+  margin-top: 34px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #8a5c13;
+}
+
+.certificate-seal {
+  position: absolute;
+  right: 28px;
+  bottom: 28px;
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffb3c7, #d94f7d);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 18px;
+  box-shadow: 0 8px 20px rgba(217, 79, 125, 0.28);
+  transform: rotate(-12deg);
+}
+
+.certificate-blossom {
+  position: absolute;
+  font-size: 34px;
+  opacity: 0.28;
+  animation: blossomFloat 4s ease-in-out infinite;
+}
+
+.blossom1 {
+  top: 24px;
+  left: 28px;
+}
+
+.blossom2 {
+  top: 72px;
+  right: 80px;
+  animation-delay: 1s;
+}
+
+.blossom3 {
+  bottom: 90px;
+  left: 70px;
+  animation-delay: 2s;
+}
+
+@keyframes blossomFloat {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(8deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.fail-title {
+  font-size: 32px;
+  color: #c04c7f;
+  margin-bottom: 18px;
+}
+
+@media (max-width: 600px) {
+  .certificate-inner {
+    padding: 30px 18px;
+  }
+
+  .certificate-title {
+    font-size: 26px;
+  }
+
+  .certificate-text {
+    font-size: 17px;
+  }
+
+  .certificate-score {
+    font-size: 21px;
+  }
+
+  .certificate-seal {
+    width: 74px;
+    height: 74px;
+    font-size: 15px;
+    right: 18px;
+    bottom: 18px;
+  }
+}
